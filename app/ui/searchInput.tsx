@@ -28,6 +28,7 @@ export default function SearchInput() {
         placeholder="Search for a country..."
         onChange={(e) => handleChange(e.target.value)}
         defaultValue={searchParams.get('query')?.toString()}
+        autoComplete="off"
         className="placeholder:text-sm placeholder:text-grey-400 dark:placeholder:text-white w-full font-light py-3 bg-white dark:bg-blue-900 pl-18 outline-none text-grey-950 dark:text-white"
         />
       <Search className="absolute left-8 top-0 bottom-0 my-auto w-4 stroke-grey-400 dark:stroke-white" />

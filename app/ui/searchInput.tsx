@@ -9,7 +9,7 @@ export default function SearchInput() {
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  const handleChange = useDebouncedCallback((term) => {
+  const handleChange = useDebouncedCallback((term: string) => {
     const params = new URLSearchParams(searchParams);
 
     if (term) {
@@ -17,6 +17,7 @@ export default function SearchInput() {
     } else {
       params.delete('country');
     }
+
     replace(`${pathname}?${params.toString()}`)
   }, 300);
 
@@ -27,7 +28,7 @@ export default function SearchInput() {
         id="search"
         placeholder="Search for a country..."
         onChange={(e) => handleChange(e.target.value)}
-        defaultValue={searchParams.get('query')?.toString()}
+        defaultValue={searchParams.get('country')?.toString()}
         autoComplete="off"
         className="placeholder:text-sm placeholder:text-grey-400 dark:placeholder:text-white w-full font-light py-3 bg-white dark:bg-blue-900 pl-18 outline-none text-grey-950 dark:text-white"
         />

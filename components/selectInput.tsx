@@ -28,10 +28,11 @@ export default function SelectInput() {
 
   return (
     <Select
+      defaultValue={searchParams.get('region')?.toString()}
       onValueChange={handleChange}
     >
       <SelectTrigger
-        className="w-[180px] bg-white rounded-xs border-none shadow-sm py-5 [&_svg]:stroke-grey-950 dark:[&_svg]:stroke-white [&_svg]:stroke-3 text-sm [&[data-placeholder]]:text-grey-950 dark:[&[data-placeholder]]:text-white font-light dark:bg-blue-900 dark:hover:bg-blue-900 focus-visible:ring-1 focus-visible:ring-grey-400">
+        className="w-[180px] bg-white rounded-xs border-none shadow-sm py-5 [&_svg]:stroke-grey-950 dark:[&_svg]:stroke-white [&_svg]:stroke-3 text-sm [&[data-placeholder]]:text-grey-950 dark:[&[data-placeholder]]:text-white font-light dark:bg-blue-900 dark:hover:bg-blue-900 focus-visible:ring-1 focus-visible:ring-grey-400 dark:[&_span]:text-white [&_span}text-grey-950">
         <SelectValue placeholder="Filter by Region"/>
       </SelectTrigger>
       <SelectContent className="bg-white dark:bg-blue-900 rounded-xs border-none">

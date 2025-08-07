@@ -1,4 +1,4 @@
-export interface CountriesData {
+export type CountryData = {
   flags: {
     png: string;
     svg: string;
@@ -7,15 +7,20 @@ export interface CountriesData {
   name: {
     common: string;
     official: string;
-    nativeName: {
-      ron: {
-        official: string;
-        common: string;
-      }
-    }
+    nativeName: Record<string, {official: string; common: string}>
   },
   cca3: string,
   capital: string[],
   region: string,
   population: number,
 }
+
+type CountryDataNoCode = Omit<CountryData, 'cca3'>
+
+export type CountryDataWithBorders = {
+  currencies: Record<string, {name: string, symbol: string}>;
+  subregion: string;
+  borders: string[];
+  languages: Record<string, string>
+} & CountryDataNoCode;
+

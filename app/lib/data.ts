@@ -1,4 +1,4 @@
-import { CountriesData } from "./definitions";
+import { CountryData, CountryDataWithBorders } from "./definitions";
 
 class HttpError extends Error {
   statusCode: number;
@@ -9,7 +9,7 @@ class HttpError extends Error {
   }
 }
 
-export async function fetchCountries(country: string, region: string): Promise<CountriesData[]>  {
+export async function fetchCountries(country: string, region: string): Promise<CountryData[]>  {
   if (region == 'all') {
     return await fetchData();
   } else if (country && region) {
@@ -23,7 +23,7 @@ export async function fetchCountries(country: string, region: string): Promise<C
   return await fetchData();
 }
 
-export async function fetchCountry(slug: string) {
+export async function fetchCountry(slug: string): Promise<CountryDataWithBorders> {
   const url = `https://restcountries.com/v3.1/alpha/${slug}?fields=name,population,subregion,region,capital,flags,currencies,borders,languages`;
 
   try {
@@ -34,12 +34,13 @@ export async function fetchCountry(slug: string) {
     return await res.json();
   } catch (err){
     console.log(err);
+    throw err;
   }
 }
 
-export async function fetchBorderCountries(country: any) {
+export async function fetchBorderCountries(country: CountryDataWithBorders) {
   try {
-    const requests = country.borders.map((border: any) => {
+    const requests = country.borders.map((border) => {
       return fetch(`https://restcountries.com/v3.1/alpha/${border}`);
     });
 
@@ -76,7 +77,7 @@ export async function fetchBorderCountries(country: any) {
 
 
 
-async function fetchData(query?: string): Promise<CountriesData[]> {
+async function fetchData(query?: string): Promise<CountryData[]> {
   const url = getUrl(query);
   try {
     const res = await fetch(url);

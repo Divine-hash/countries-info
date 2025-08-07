@@ -1,15 +1,27 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import NunitoFont from 'next/font/local';
+import Header from "./ui/header";
+import { Providers } from "./providers";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const nunito = NunitoFont({
+  src: [
+    {
+      path: '../public/fonts/NunitoSans-ExtraBold.woff2',
+      weight: '800',
+      style: 'normal'
+    },
+    {
+      path: '../public/fonts/NunitoSans-SemiBold.woff2',
+      weight: '600',
+      style: 'normal'
+    },
+    {
+      path: '../public/fonts/NunitoSans-Light.woff2',
+      weight: '300',
+      style: 'normal'
+    }
+  ]
 });
 
 export const metadata: Metadata = {
@@ -23,11 +35,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+    <html lang="en" className={`${nunito.className} antialiased`} suppressHydrationWarning >
+      <body className="min-h-screen bg-grey-50 dark:bg-blue-950">
+        <Providers attribute="data-theme" defaultTheme="system" enableSystem>
+          <Header />
+          {children}
+        </Providers>
       </body>
     </html>
   );

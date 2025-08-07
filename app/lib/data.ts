@@ -12,7 +12,7 @@ class HttpError extends Error {
 
 export async function fetchCountries(country: string, region: string): Promise<CountryData[]>  {
   if (country && region && region !== 'all') {
-    const regions = await fetchData(region);
+    const regions = await fetchCountriesByRegion(region);
     return regions.filter((region) => region.name.official.includes(country))
   } else if (country) {
     return await fetchData(country);
@@ -98,7 +98,7 @@ async function fetchData(query?: string): Promise<CountryData[]> {
   }
 }
 
-async function fetchCountriesByRegion(region: string) {
+async function fetchCountriesByRegion(region: string): Promise<CountryData[]> {
   const url = `https://restcountries.com/v3.1/region/${region}?fields=name,population,region,capital,flags,cca3`;
   try {
     const res = await fetch(url);
@@ -106,6 +106,7 @@ async function fetchCountriesByRegion(region: string) {
     return await res.json();
   } catch (err) {
     console.log(err);
+    throw err;
   }
 }
 

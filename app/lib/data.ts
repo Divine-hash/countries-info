@@ -1,3 +1,4 @@
+import { URL } from "node:url";
 import { CountryData, CountryDataWithBorders } from "./definitions";
 
 class HttpError extends Error {
@@ -10,15 +11,13 @@ class HttpError extends Error {
 }
 
 export async function fetchCountries(country: string, region: string): Promise<CountryData[]>  {
-  if (region == 'all') {
-    return await fetchData();
-  } else if (country && region) {
+  if (country && region && region !== 'all') {
     const regions = await fetchData(region);
     return regions.filter((region) => region.name.official.includes(country))
   } else if (country) {
     return await fetchData(country);
-  } else if (region) {
-    return await fetchData(region);
+  } else if (region && region != 'all') {
+    return await fetchCountriesByRegion(region);
   }
   return await fetchData();
 }
@@ -96,6 +95,17 @@ async function fetchData(query?: string): Promise<CountryData[]> {
     } else {
       throw new Error('An unknown error occurred.');
     }
+  }
+}
+
+async function fetchCountriesByRegion(region: string) {
+  const url = `https://restcountries.com/v3.1/region/${region}?fields=name,population,region,capital,flags,cca3`;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw Error(`HTTP Error: Status: ${res.status} for countries by region`);
+    return await res.json();
+  } catch (err) {
+    console.log(err);
   }
 }
 

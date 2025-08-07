@@ -6,7 +6,7 @@ import Link from 'next/link';
 export default async function Countries({ country, region }: {country: string, region: string}) {
   const allCountries = await fetchCountries(country, region);
   return (
-    <div className="grid justify-items-center md:grid-cols-[repeat(auto-fit,minmax(250,1fr))] md:justify-items-stretch gap-10">
+    <div className="grid justify-items-center md:grid-cols-[repeat(auto-fit,minmax(250,1fr))] md:justify-items-stretch gap-10 pb-15">
       {allCountries.map((countryData, index) =>
         <Link
           key={countryData.name.common}
